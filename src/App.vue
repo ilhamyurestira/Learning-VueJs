@@ -1,79 +1,60 @@
 <template>
-  <AppHeader v-bind:TextHeader="textHeader" />
-  <input type="text" v-model="search" placeholder="Search..." />
-  <h2>Name: {{ name }} </h2>
-  <input type="text" v-model="newName"><br>
-  <button v-on:click="changeName">Change Name</button><br>
-  <a v-bind:href="url">Go To Google.com</a>
-
-  <div v-if="products.length">
-    <ul>
-      <!-- loop data -->
-      <li v-for="product in filterProducts" v-bind:key="product.id">
-        {{ product.title }} - {{ product.price }}
-      </li>
-    </ul>
+  <div v-show="showdiv">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">EXPRESS.JS + VUE.JS</a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <router-link to="/" class="nav-link">Home Page</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/list" class="nav-link">List</router-link>
+            </li>
+            <li class="navlatihan">
+              <router-link to="/tambah" class="nav-link">Tambah</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/posts/edit/wewewew" class="nav-link">Edit</router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </div>
-  <!-- jika tidak ada data -->
-  <div v-else>
-    <p>No Data</p>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
-import AppHeader from "./components/Header.vue"
+//import Header from "./components/Header";
+
 export default {
   name: 'App',
-  components: {
-    AppHeader,
-  },
   data() {
     return {
-      url: "https://google.com",
-      name: "Udin Arbain",
-      newName: "",
-      search: "",
-      products: [],
-      // textHeader : "Welcome Bambang"
+      showdiv: false,
     }
   },
+
+  created: function () {
+    //this.getCakadesById();
+    this.loadApp()
+  },
   methods: {
-    changeName() {
-      this.name = this.newName
-    },
-  },
-  created() {
-    this.products = [
-      { id: 1, title: "Product 1", price: 5000 },
-      { id: 2, title: "Product 2", price: 4500 },
-      { id: 3, title: "Product 3", price: 3700 },
-      { id: 4, title: "Product 4", price: 1200 },
-    ];
-  },
-  // Computed Properties
-  computed: {
-    filterProducts() {
-      //      alert("DSDs")
-      // filter product dari array
-      return this.products.filter((product) => {
-        // Return title = search
-        return product.title.toUpperCase().match(this.search.toUpperCase());
-      });
-    },
-    textHeader() {
-      return `Welcome ${this.name}`;
-    },
+    loadApp() {
+      let token = localStorage.getItem('token')
+      if (token === undefined || token === null || token.length === 0) {
+        this.showdiv = false
+        this.$router.push("/login");
+      } else {
+        this.showdiv = true
+      }
+    }
   },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+/**/
+@import "~bulma/css/bulma.css";
 </style>
