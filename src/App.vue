@@ -14,9 +14,9 @@
             <li class="navlatihan">
               <router-link to="/tambah" class="nav-link">Tambah</router-link>
             </li>
-            <li class="nav-item">
-              <router-link to="/posts/edit/wewewew" class="nav-link">Edit</router-link>
-            </li>
+            <!-- <li class="nav-item">
+              <router-link to="/edit" class="nav-link">Edit</router-link>
+            </li> -->
           </ul>
         </div>
       </div>

@@ -1,5 +1,6 @@
 <template>
-    <div :style="{ marginTop: '80px' }">
+    <div :style="{marginTop:'80px'}">
+        <h2>Edit Cakades</h2>
         <div class="field">
             <label class="label">NIK Cakades</label>
             <div class="control">
@@ -31,8 +32,8 @@
         </div>
 
         <div class="control">
-            <button class="button is-success" @click="addCakades">Tambah</button>&nbsp;
-            <button class="button is-warning" @click="cancelProcess">Batal</button>
+            <button class="button is-success" @click="updateCakades">Update</button>
+            <button class="button is-warning" @click="cancelEdit">Batal</button>
         </div>
     </div>
 </template>
@@ -42,7 +43,7 @@ import axios from "axios";
 import VueSimpleAlert from "vue-simple-alert";
 
 export default {
-    name: "cakadesCreate",
+    name: "cakadesEdit",
     data() {
         return {
             nama_cakades: "",
@@ -55,6 +56,9 @@ export default {
     },
     created: function () {
         this.getDesa();
+        // Mengambil ID Cakades dari URL atau Anda dapat melewatkan properti ini sebagai prop
+        this.id_cakades = this.$route.params.id;
+        this.getCakadesData();
     },
     methods: {
         async getDesa() {
@@ -65,28 +69,36 @@ export default {
                 console.log(err);
             }
         },
-        async cancelProcess() {
-            this.$router.push("/CakadesList");
+        async getCakadesData() {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/v1/cakades/${this.id_cakades}`);
+                const data = response.data;
+                this.nik_cakades = data.nik_cakades;
+                this.nama_cakades = data.nama_cakades;
+                this.alamat_cakades = data.alamat_cakades;
+                this.id_desa = data.id_desa;
+            } catch (err) {
+                console.log(err);
+            }
         },
-        async addCakades() {
-            VueSimpleAlert.confirm("Yakin data Tambah?").then(async () => {
+        async updateCakades() {
+            VueSimpleAlert.confirm("Yakin data akan diperbarui?").then(async () => {
                 try {
-                    const response = await axios.post(`http://localhost:8000/api/v1/cakades/tambah`, {
+                    const response = await axios.put(`http://localhost:8000/api/v1/cakades/${this.id_cakades}/ubah`, {
                         nik_cakades: this.nik_cakades,
                         nama_cakades: this.nama_cakades,
                         alamat_cakades: this.alamat_cakades,
                         id_desa: this.id_desa,
                     });
-                    this.nik_cakades = "";
-                    this.nama_cakades = "";
-                    this.alamat_cakades = "";
-                    this.id_desa = "";
                     await VueSimpleAlert.alert(response.data);
                     this.$router.push("/list");
                 } catch (err) {
                     console.log(err);
                 }
-            }).catch(() => console.log("Tambah Data dibatalkan"));
+            }).catch(() => console.log("Perbarui Data dibatalkan"));
+        },
+        cancelEdit() {
+            this.$router.push("/list");
         },
     },
 };

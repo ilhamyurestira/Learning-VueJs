@@ -16,8 +16,8 @@
                     <td>{{ item.nama_cakades }}</td>
                     <td>{{ item.alamat_cakades }}</td>
                     <td class="has-text-centered">
-                        <!-- <router-link :to="{ name: 'cakadesEdit', params: { id: item.id } }"
-                            class="button is-info is-small">Edit</router-link> -->
+                        <router-link :to="{ name: 'cakadesEdit', params: { id: item.id } }"
+                            class="button is-info is-small">Edit</router-link>
                         <a class="button is-danger is-small" @click="deleteCakades(item.id)">Delete</a>
                     </td>
                 </tr>

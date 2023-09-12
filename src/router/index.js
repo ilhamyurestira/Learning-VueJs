@@ -19,6 +19,16 @@ const routes = [
         component: () => import( /* webpackChunkName: "post.index" */ '../components/pages/cakadesList.vue')
     },
     {
+        path: '/edit',
+        name: 'cakadesEdit',
+        component: () => import( /* webpackChunkName: "post.index" */ '../components/pages/cakadesEdit.vue')
+    },
+    {
+        path: '/edit/:id',
+        name: 'cakadesEdit',
+        component: () => import( /* webpackChunkName: "post.index" */ '../components/pages/cakadesEdit.vue')
+    },
+    {
         path: '/tambah',
         name: 'cakadesCreate',
         component: () => import( /* webpackChunkName: "post.index" */ '../components/pages/cakadesCreate.vue')
